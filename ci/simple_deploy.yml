@@ -2,7 +2,7 @@ resources:
 - name: app_sources
   type: git
   source:
-    uri: https://github.com/justmejus/jhipsterForCFLocal
+    uri: https://github.com/justmejus/rabbitSample
 - name: staging_deployment
   type: cf
   source:
@@ -36,7 +36,7 @@ jobs:
           export TERM=dumb
           cd app_sources
           ./mvnw package -DskipTests
-          mv target/jhipster-for-cf-local-0.0.1-SNAPSHOT.war ../jhi4local_jar
+          mv target/demo-0.0.1-SNAPSHOT.jar ../jhi4local_jar
   - put: staging_deployment
     params:
       manifest: app_sources/manifest.yml
