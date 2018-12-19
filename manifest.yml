@@ -2,4 +2,4 @@
 applications:
 - name: demo
   memory: 1G
-path: jhi4local_jar/demo-0.0.1-SNAPSHOT.jar 
+path: ../jhi4local_jar/demo-0.0.1-SNAPSHOT.jar 
