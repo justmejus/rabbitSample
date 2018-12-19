@@ -1,3 +1,9 @@
+resources_types:
+- name: email
+  type: docker-image
+  source:
+    repository: pcfseceng/email-resource
+
 resources:
 - name: app_sources
   type: git
@@ -12,6 +18,16 @@ resources:
     organization: pcfdev-org
     space: pcfdev-space
     skip_cert_check: true
+- name: notification
+  type: email
+  source:
+    smtp:
+      host: smtp.gmail.com
+      port: "587"
+      username: owolf@specify.io
+      password: secret
+    from: ci@specify.io
+    to: [ "a.marimpietri@eustema.it" ]
 
 jobs:
 - name: simple-deploy
@@ -40,3 +56,7 @@ jobs:
   - put: staging_deployment
     params:
       manifest: app_sources/manifest.yml
+  - put: notification
+        params:
+          subject: "subj"
+          body: "body"
