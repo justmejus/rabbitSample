@@ -56,7 +56,19 @@ jobs:
   - put: staging_deployment
     params:
       manifest: app_sources/manifest.yml
-  - put: notification
+    on_success:
+      do:
+      - task: create-notification-content
+        config:
+          platform: linux
+          outputs:
+          - name: notification-content
+          image_resource:
+            type: docker-image
+            source: { repository: pallet/git-client }
+          
+      - put: notification
         params:
           subject: "subj"
           body: "body"
+  
