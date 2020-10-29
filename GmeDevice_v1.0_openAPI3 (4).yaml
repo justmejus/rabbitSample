@@ -1,0 +1,941 @@
+openapi: 3.0.1
+info:
+  title: gmemeter
+  description: 'GmeMeter Resources - Work Order Domain'
+  contact:
+    email: work_order_domain_team@enel.com
+  version: 1.0.0
+externalDocs:
+  description: Service Description
+  url: https://confluence.springlab.enel.com/display/INDWORKORD/gmemeter
+servers:
+- url: https://xxx.enel.com/GmeMeter/v1.0
+- url: http://xxx.enel.com/GmeMeter/v1.0
+tags:
+- name: Device
+  description: Device-related functions
+- name: Profile
+  description: Profile-related functions
+paths:
+  /{tenant}/gmedevice/{identifier}/current:
+    get:
+      tags:
+      - Device
+      summary: Retrieves the current version of device by serial number
+      description: 'Returns the current GmeDevice for the input Serial Number'
+      operationId: getGmeDeviceCurrent
+      parameters:
+      - name: tenant
+        in: path
+        description: tenant identifier
+        required: true
+        schema:
+          type: string
+      - name: identifier
+        in: path
+        description: device serial number
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        400:
+          description: Bad Request
+          content: {}
+        404:
+          description: Resource not found
+          content: {}
+        500:
+          description: Internal server error
+          content: {}
+      security:
+      - api_key: []
+  /{tenant}/gmedevice/{identifier}/latest:
+    get:
+      tags:
+      - Device
+      summary: Retrieves the latest version of the device by serial number.
+      operationId: getGmeDeviceLatest
+      description: 'Returns the latest GmeDevice for the input Serial Number'
+      parameters:
+      - name: tenant
+        in: path
+        description: tenant identifier
+        required: true
+        schema:
+          type: string
+      - name: identifier
+        in: path
+        description: device serial number
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        400:
+          description: Bad Request
+          content: {}
+        404:
+          description: Resource not found
+          content: {}
+        500:
+          description: Internal server error
+          content: {}
+      security:
+      - api_key: []
+  /{tenant}/gmedevice/{identifier}/history:
+    get:
+      tags:
+      - Device
+      summary: Retrieves the history of the device by serial number
+      description: 'Returns the complete history of the GmeDevice, without non-valid time periods'
+      operationId: getGmeDeviceHistory
+      parameters:
+      - name: tenant
+        in: path
+        description: tenant identifier
+        required: true
+        schema:
+          type: string
+      - name: identifier
+        in: path
+        description: device serial number
+        required: true
+        schema:
+          type: string
+      - name: nextPageToken
+        in: query
+        description: token to be used to request next page
+        required: false
+        schema:
+          type: string
+      - name: resultsPerPage
+        in: query
+        description: number of results in a single page
+        required: false
+        schema:
+          type: integer
+          default: 1000
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceList'
+        400:
+          description: Bad Request
+          content: {}
+        404:
+          description: Resource not found
+          content: {}
+        500:
+          description: Internal server error
+          content: {}
+      security:
+      - api_key: []
+  /{tenant}/gmedevice/{identifier}/all:
+    get:
+      tags:
+      - Device
+      summary: Retrieves all the information of the device by serial number
+      description: 'Returns the complete history of the GmeDevice, including non-valid time periods'
+      operationId: getGmeDeviceAll
+      parameters:
+      - name: tenant
+        in: path
+        description: tenant identifier
+        required: true
+        schema:
+          type: string
+      - name: identifier
+        in: path
+        description: device serial number
+        required: true
+        schema:
+          type: string
+      - name: nextPageToken
+        in: query
+        description: token to be used to request next page
+        required: false
+        schema:
+          type: string
+      - name: resultsPerPage
+        in: query
+        description: number of results in a single page
+        required: false
+        schema:
+          type: integer
+          default: 1000
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceList'
+        400:
+          description: Bad Request
+          content: {}
+        404:
+          description: Resource not found
+          content: {}
+        500:
+          description: Internal server error
+          content: {}
+      security:
+      - api_key: []
+  /{tenant}/gmedevice:
+    get:
+      tags:
+      - Device
+      summary: Search for device
+      description: 'Returns a list of GmeDevices'
+      operationId: searchGmeDevice
+      parameters:
+      - name: tenant
+        in: path
+        description: tenant identifier
+        required: true
+        schema:
+          type: string
+      - name: pod
+        in: query
+        description: pod identifier
+        required: true
+        schema:
+          type: string
+      - name: responseType
+        in: query
+        description: response type
+        required: false
+        schema:
+          type: string
+          enum:
+              - current
+              - latest
+              - all
+              - history
+          default: current
+      - name: nextPageToken
+        in: query
+        description: token to be used to request next page
+        required: false
+        schema:
+          type: string
+      - name: resultsPerPage
+        in: query
+        description: number of results in a single page
+        required: false
+        schema:
+          type: integer
+          default: 1000
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceList'
+        400:
+          description: Bad Request
+          content: {}
+        404:
+          description: Resource not found
+          content: {}
+        500:
+          description: Internal server error
+          content: {}
+      security:
+      - api_key: []
+  /{tenant}/gmedevice/record:
+    post:
+      tags:
+      - Device
+      summary: Records a new device
+      description: 'Records a new GmeDevice'
+      operationId: recordGmeDevice
+      parameters:
+      - name: tenant
+        in: path
+        description: tenant identifier
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content :
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Device'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        404:
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      security:
+      - api_key: []
+  /{tenant}/gmedevice/insert:
+    post:
+      tags:
+      - Device
+      summary: Inserts a new device
+      description: 'Inserts a new GmeDevice'
+      operationId: insertGmeDevice
+      parameters:
+      - name: tenant
+        in: path
+        description: tenant identifier
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content :
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Device'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        404:
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      security:
+      - api_key: []
+  /{tenant}/gmedevice/invalidate:
+    patch:
+      tags:
+      - Device
+      summary: Invalidates a new device using the identifier (serial number)
+      description: 'Invalidates one or more specific time-periods for the selected GmeDevice'
+      operationId: invalidateGmeDevice
+      parameters:
+      - name: tenant
+        in: path
+        description: tenant identifier
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content :
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Invalidate'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        404:
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      security:
+      - api_key: []
+  /{tenant}/gmedevice/{identifier}:
+    delete:
+      tags:
+      - Device
+      summary: Deletes the device by serial number.
+      description: 'Deletes a GmeDevice'
+      operationId: deleteGmeDevice
+      parameters:
+      - name: tenant
+        in: path
+        description: tenant identifier
+        required: true
+        schema:
+          type: string
+      - name: identifier
+        in: path
+        description: device serial number
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        404:
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        500:
+          description: Internal server error
+          content: {}
+      security:
+      - api_key: []
+  /{tenant}/profile/{identifier}/current:
+    get:
+      tags:
+      - Profile
+      summary: Retrieves the current version of device by costruttore-modello-firmware
+      description: 'Returns the current Profile for the input costruttore-modello-firmware'
+      operationId: getGmeProfileCurrent
+      parameters:
+      - name: tenant
+        in: path
+        description: tenant identifier
+        required: true
+        schema:
+          type: string
+      - name: identifier
+        in: path
+        description: costruttore-modello-firmware
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+        404:
+          description: Resource not found
+          content: {}
+        500:
+          description: Internal server error
+          content: {}
+      security:
+      - api_key: []
+  /{tenant}/profile/{identifier}/latest:
+    get:
+      tags:
+      - Profile
+      summary: Retrieves a single profile by costruttore-modello-firmware
+      description: 'Returns the latest Profile for the input costruttore-modello-firmware'
+      operationId: getGmeProfileLatest
+      parameters:
+      - name: tenant
+        in: path
+        description: tenant identifier
+        required: true
+        schema:
+          type: string
+      - name: identifier
+        in: path
+        description: costruttore-modello-firmware
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+        404:
+          description: Resource not found
+          content: {}
+        500:
+          description: Internal server error
+          content: {}
+      security:
+      - api_key: []
+  /{tenant}/profile/{identifier}/history:
+    get:
+      tags:
+      - Profile
+      summary: Retrieves the history of the profile by costruttore-modello-firmware
+      description: 'Returns the complete history of the Profile, without non-valid time periods'
+      operationId: getGmeProfileHistory
+      parameters:
+      - name: tenant
+        in: path
+        description: tenant identifier
+        required: true
+        schema:
+          type: string
+      - name: identifier
+        in: path
+        description: costruttore-modello-firmware
+        required: true
+        schema:
+          type: string
+      - name: nextPageToken
+        in: query
+        description: token to be used to request next page
+        required: false
+        schema:
+          type: string
+      - name: resultsPerPage
+        in: query
+        description: number of results in a single page
+        required: false
+        schema:
+          type: integer
+          default: 1000
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileList'
+        400:
+          description: Bad Request
+          content: {}
+        404:
+          description: Resource not found
+          content: {}
+        500:
+          description: Internal server error
+          content: {}
+      security:
+      - api_key: []
+  /{tenant}/profile/{identifier}/all:
+    get:
+      tags:
+      - Profile
+      summary: Retrieves all the information of the device by costruttore-modello-firmware
+      description: 'Returns the complete history of the Profile, including non-valid time periods'
+      operationId: getGmeProfileAll
+      parameters:
+      - name: tenant
+        in: path
+        description: tenant identifier
+        required: true
+        schema:
+          type: string
+      - name: identifier
+        in: path
+        description: costruttore-modello-firmware
+        required: true
+        schema:
+          type: string
+      - name: nextPageToken
+        in: query
+        description: token to be used to request next page
+        required: false
+        schema:
+          type: string
+      - name: resultsPerPage
+        in: query
+        description: number of results in a single page
+        required: false
+        schema:
+          type: integer
+          default: 1000
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileList'
+        400:
+          description: Bad Request
+          content: {}
+        404:
+          description: Resource not found
+          content: {}
+        500:
+          description: Internal server error
+          content: {}
+      security:
+      - api_key: []
+  /{tenant}/profile:
+    get:
+      tags:
+      - Profile
+      summary: Search for profiles
+      description: 'Returns a list of Profiles'
+      operationId: searchGMEProfile
+      parameters:
+      - name: tenant
+        in: path
+        description: tenant identifier
+        required: true
+        schema:
+          type: string
+      - name: profileType
+        in: query
+        description: vendor identifier
+        required: false
+        schema:
+          type: string
+          enum:
+            - shared
+            - specific
+          default: shared 
+      - name: nextPageToken
+        in: query
+        description: token to be used to request next page
+        required: false
+        schema:
+          type: string
+      - name: resultsPerPage
+        in: query
+        description: number of results in a single page
+        required: false
+        schema:
+          type: integer
+          default: 1000
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileList'
+        400:
+          description: Bad Request
+          content: {}
+        404:
+          description: Resource not found
+          content: {}
+        500:
+          description: Internal server error
+          content: {}
+      security:
+      - api_key: []
+  /{tenant}/profile/record:
+    post:
+      tags:
+      - Profile
+      summary: Records a new profile
+      description: 'Records a new Profile'
+      operationId: recordGmeProfile
+      parameters:
+      - name: tenant
+        in: path
+        description: tenant identifier
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content :
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profile'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        404:
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      security:
+      - api_key: []
+  /{tenant}/profile/insert:
+    post:
+      tags:
+      - Profile
+      summary: Inserts a new profile
+      description: 'Inserts a new Profile'
+      operationId: insertGmeProfile
+      parameters:
+      - name: tenant
+        in: path
+        description: tenant identifier
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content :
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profile'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        404:
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      security:
+      - api_key: []
+  /{tenant}/profile/invalidate:
+    patch:
+      tags:
+      - Profile
+      summary: Invalidates a new profile using the identifier (costruttore-modello-firmware)
+      description: 'Invalidates one or more specific time-periods for the selected Profile'
+      operationId: invalidateGmeProfile
+      parameters:
+      - name: tenant
+        in: path
+        description: tenant identifier
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content :
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Invalidate'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        404:
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+      security:
+      - api_key: []
+  /{tenant}/profile/{identifier}:
+    delete:
+      tags:
+      - Profile
+      summary: Deletes the profile by costruttore-modello-firmware.
+      description: 'Deletes a GmeDevice'
+      operationId: deleteGmeProfile
+      parameters:
+      - name: tenant
+        in: path
+        description: tenant identifier
+        required: true
+        schema:
+          type: string
+      - name: identifier
+        in: path
+        description: profile costruttore-modello-firmware
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        404:
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        500:
+          description: Internal server error
+          content: {}
+      security:
+      - api_key: []
+components:
+  schemas:
+    Device:
+      type: object
+      properties:
+        serialNumber:
+          type: string
+        param1:
+          type: string
+        param2:
+          type: string
+        param3:
+          type: string
+        profile:
+          type: array
+          items:
+            $ref: '#/components/schemas/Profile'
+    Invalidate:
+      type: object
+      properties:
+        identifier:
+          type: string
+        dtIniRef :
+          type: string
+        dtEndRef  :
+          type: string
+    DeviceList:
+      type: object
+      properties:
+        header:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pagination'
+        devices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Device'
+    Profile:
+      type: object
+      properties:
+        costruttore:
+          type: string
+        modello:
+          type: string
+        firmware:
+          type: string
+        param1:
+          type: string
+        param2:
+          type: string
+        param3:
+          type: string
+    ProfileList:
+      type: object
+      properties:
+        header:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pagination'
+        profiles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Profile'
+    Pagination:
+      type: object
+      properties:
+        nextPageToken:
+          type: string
+        count:
+          type: integer
+    Response:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    gmedevice_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://xxx.enel.com/oauth/dialog
+          scopes:
+            write:resources: modify resources
+            read:resources: read resources
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
