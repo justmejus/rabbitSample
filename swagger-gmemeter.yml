@@ -1,0 +1,1225 @@
+openapi: 3.0.1
+info:
+    title: OpenAPI definition
+    version: v0
+servers:
+    - 
+        url: 'http://localhost:8080'
+        description: Generated server url
+tags:
+    - 
+        name: batch
+        description: Sample Api entity operation
+    - 
+        name: batch-to-impl
+        description: Batch entity operation
+paths:
+    '/{tenant}/gmedevices/{identifier}/current':
+        get:
+            tags:
+                - device-gme-controller
+            operationId: searchGMEDevice
+            parameters:
+                - 
+                    name: tenant
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+                - 
+                    name: identifier
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+    '/{tenant}/gmedevices':
+        get:
+            tags:
+                - device-gme-controller
+            operationId: searchDeviceGME
+            parameters:
+                - 
+                    name: tenant
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+                - 
+                    name: pod
+                    in: query
+                    required: true
+                    schema:
+                        type: string
+                - 
+                    name: response_type
+                    in: query
+                    required: false
+                    schema:
+                        type: string
+                        default: current
+                - 
+                    name: next_page_token
+                    in: query
+                    required: false
+                    schema:
+                        type: string
+                - 
+                    name: results_per_page
+                    in: query
+                    required: false
+                    schema:
+                        type: integer
+                        format: int32
+                        default: 1000
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+    '/{tenant}/gmedevices/{identifier}/latest':
+        get:
+            tags:
+                - device-gme-controller
+            operationId: searchLatestGMEDevice
+            parameters:
+                - 
+                    name: tenant
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+                - 
+                    name: identifier
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+    '/{tenant}/gmedevices/{identifier}/all':
+        get:
+            tags:
+                - device-gme-controller
+            operationId: searchAllgmedevices
+            parameters:
+                - 
+                    name: tenant
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+                - 
+                    name: identifier
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+                - 
+                    name: next_page_token
+                    in: query
+                    required: false
+                    schema:
+                        type: string
+                - 
+                    name: results_per_page
+                    in: query
+                    required: false
+                    schema:
+                        type: integer
+                        format: int32
+                        default: 1000
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+    '/{tenant}/gmedevices/{identifier}':
+        delete:
+            tags:
+                - device-gme-controller
+            operationId: deleteDeviceGMEHistory
+            parameters:
+                - 
+                    name: tenant
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+                - 
+                    name: identifier
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+    '/{tenant}/gmedevices/invalidate':
+        patch:
+            tags:
+                - device-gme-controller
+            operationId: invalidateDeviceGME
+            parameters:
+                - 
+                    name: tenant
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/InvalidateDeviceGMEDTO'
+                required: true
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+    '/{tenant}/gmedevices/insert':
+        post:
+            tags:
+                - device-gme-controller
+            operationId: insertDeviceGMEHistory
+            parameters:
+                - 
+                    name: tenant
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: array
+                            items:
+                                $ref: '#/components/schemas/DeviceGMEDTO'
+                required: true
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+    '/{tenant}/gmedevices/record':
+        post:
+            tags:
+                - device-gme-controller
+            operationId: recordDeviceGMEHistory
+            parameters:
+                - 
+                    name: tenant
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: array
+                            items:
+                                $ref: '#/components/schemas/DeviceGMEDTO'
+                required: true
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+    '/{tenant}/gmedevices/{identifier}/history':
+        get:
+            tags:
+                - device-gme-controller
+            operationId: searchGMEDeviceHistory
+            parameters:
+                - 
+                    name: tenant
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+                - 
+                    name: identifier
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+                - 
+                    name: next_page_token
+                    in: query
+                    required: false
+                    schema:
+                        type: string
+                - 
+                    name: results_per_page
+                    in: query
+                    required: false
+                    schema:
+                        type: integer
+                        format: int32
+                        default: 1000
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+    '/dynamo/table/{tableName}':
+        get:
+            tags:
+                - dynamo-controller-impl
+            operationId: checkTableExist
+            parameters:
+                - 
+                    name: tableName
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        '*/*':
+                            schema:
+                                type: object
+    /dynamo/table/list:
+        get:
+            tags:
+                - dynamo-controller-impl
+            operationId: tableList
+            parameters:
+                - 
+                    name: tableName
+                    in: query
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        '*/*':
+                            schema:
+                                type: object
+    '/{tenant}/profiles':
+        get:
+            tags:
+                - profile-gme-controller
+            operationId: searchProfileGME
+            parameters:
+                - 
+                    name: tenant
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+                - 
+                    name: profile_type
+                    in: query
+                    required: false
+                    schema:
+                        type: string
+                - 
+                    name: next_page_token
+                    in: query
+                    required: false
+                    schema:
+                        type: string
+                - 
+                    name: results_per_page
+                    in: query
+                    required: false
+                    schema:
+                        type: integer
+                        format: int32
+                        default: 1000
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+        patch:
+            tags:
+                - profile-gme-controller
+            operationId: invalidate
+            parameters:
+                - 
+                    name: tenant
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ProfileGMEDTO'
+                required: true
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+    '/{tenant}/profiles/{identifier}/all':
+        get:
+            tags:
+                - profile-gme-controller
+            operationId: searchProfileAll
+            parameters:
+                - 
+                    name: tenant
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+                - 
+                    name: identifier
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+                - 
+                    name: next_page_token
+                    in: query
+                    required: false
+                    schema:
+                        type: string
+                - 
+                    name: results_per_page
+                    in: query
+                    required: false
+                    schema:
+                        type: integer
+                        format: int32
+                        default: 1000
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+    '/{tenant}/profiles/insert':
+        post:
+            tags:
+                - profile-gme-controller
+            operationId: insertProfile
+            parameters:
+                - 
+                    name: tenant
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ProfileGMEDTO'
+                required: true
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+    '/{tenant}/profiles/record':
+        post:
+            tags:
+                - profile-gme-controller
+            operationId: recordProfile
+            parameters:
+                - 
+                    name: tenant
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ProfileGMEDTO'
+                required: true
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+    '/{tenant}/profiles/{identifier}':
+        delete:
+            tags:
+                - profile-gme-controller
+            operationId: deleteProfile
+            parameters:
+                - 
+                    name: tenant
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+                - 
+                    name: identifier
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+    '/{tenant}/profiles/{identifier}/history':
+        get:
+            tags:
+                - profile-gme-controller
+            operationId: searchProfileHistory
+            parameters:
+                - 
+                    name: tenant
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+                - 
+                    name: identifier
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+                - 
+                    name: next_page_token
+                    in: query
+                    required: false
+                    schema:
+                        type: string
+                - 
+                    name: results_per_page
+                    in: query
+                    required: false
+                    schema:
+                        type: integer
+                        format: int32
+                        default: 1000
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+    '/{tenant}/profiles/{identifier}/current':
+        get:
+            tags:
+                - profile-gme-controller
+            operationId: searchProfileCurrent
+            parameters:
+                - 
+                    name: tenant
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+                - 
+                    name: identifier
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+    '/{tenant}/profiles/{identifier}/latest':
+        get:
+            tags:
+                - profile-gme-controller
+            operationId: searchProfileLatest
+            parameters:
+                - 
+                    name: tenant
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+                - 
+                    name: identifier
+                    in: path
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+    /proxy-call:
+        get:
+            tags:
+                - proxy-call-controller-impl
+            operationId: sampleGetCall
+            parameters:
+                - 
+                    name: id
+                    in: query
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/SampleObjectTO'
+        post:
+            tags:
+                - proxy-call-controller-impl
+            operationId: samplePostCall
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/SampleMessageObject'
+                required: true
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/SampleObjectTO'
+    /batch/SampleBatch/data:
+        get:
+            tags:
+                - batch-to-impl
+                - batch
+            description: 'Retrieve the data for given application, partition and dataGovernance filters. In batch mode.'
+            operationId: getData
+            parameters:
+                - 
+                    name: partitionFilter
+                    in: query
+                    required: true
+                    schema:
+                        type: string
+                - 
+                    name: applicationFilter
+                    in: query
+                    required: false
+                    schema:
+                        type: string
+                        default: ''
+                - 
+                    name: dataGovernanceFilter
+                    in: query
+                    required: false
+                    schema:
+                        type: string
+                        default: ''
+            responses:
+                '200':
+                    description: A data partition
+                    content:
+                        '*/*':
+                            schema:
+                                type: object
+                '400':
+                    description: The filter is not valid
+                    content:
+                        '*/*':
+                            schema:
+                                type: object
+    /batch/SampleBatch/executionPlan:
+        post:
+            tags:
+                - batch-to-impl
+                - batch
+            description: 'Execution Plan, retrieves s3 path'
+            operationId: executionPlan
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ExecutionPlanRequestDTO'
+                required: true
+            responses:
+                '200':
+                    description: Information about location of data source
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/ExecutionPlanResponseDTO'
+    /batch/SampleBatch/flightInfo:
+        get:
+            tags:
+                - batch-to-impl
+                - batch
+            description: Retrieve the partition info
+            operationId: getFlightInfo
+            responses:
+                '200':
+                    description: Information about partitions
+                    content:
+                        '*/*':
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/FlightInfo'
+    /batch/SampleBatch/data/stream:
+        get:
+            tags:
+                - batch-to-impl
+                - batch
+            description: 'Retrieve the data for given application, partition and dataGovernance filters. In streaming mode.'
+            operationId: getDataStream
+            parameters:
+                - 
+                    name: partitionFilter
+                    in: query
+                    required: true
+                    schema:
+                        type: string
+                - 
+                    name: applicationFilter
+                    in: query
+                    required: false
+                    schema:
+                        type: string
+                        default: ''
+                - 
+                    name: dataGovernanceFilter
+                    in: query
+                    required: false
+                    schema:
+                        type: string
+                        default: ''
+            responses:
+                '200':
+                    description: A data partition
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/StreamingResponseBody'
+                '400':
+                    description: The filter is not valid
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/StreamingResponseBody'
+components:
+    schemas:
+        InvalidateDeviceGMEDTO:
+            type: object
+            properties:
+                SERIAL_NUMBER:
+                    type: string
+                DT_INI_REF:
+                    type: string
+                    format: date-time
+                DT_END_REF:
+                    type: string
+                    format: date-time
+        DeviceGMEDTO:
+            required:
+                - serialNumber
+            type: object
+            properties:
+                dtIniRef:
+                    type: string
+                    format: date-time
+                dtEndRef:
+                    type: string
+                    format: date-time
+                dtIniVal:
+                    type: string
+                    format: date-time
+                dtEndVal:
+                    type: string
+                    format: date-time
+                createdAuthor:
+                    type: string
+                modifiedAuthor:
+                    type: string
+                code:
+                    type: string
+                dtDisposal:
+                    type: string
+                    format: date-time
+                serialNumber:
+                    type: string
+                dtCensus:
+                    type: string
+                    format: date-time
+                type:
+                    type: string
+                externalSerialNumber:
+                    type: string
+                manufacturerSerialNumber:
+                    type: string
+                plateSerialNumber:
+                    type: string
+                typeCode:
+                    type: string
+                productionYear:
+                    type: integer
+                    format: int32
+                detActiveEnergyNumOfDigit:
+                    type: integer
+                    format: int32
+                detIgmeFlg:
+                    type: boolean
+                detOwnedByOthersFlg:
+                    type: boolean
+                detPowerNumOfDigit:
+                    type: integer
+                    format: int32
+                detReactiveEnergyNumOfDigit:
+                    type: integer
+                    format: int32
+                detStandardEmuFlg:
+                    type: boolean
+                detTechRepresentative:
+                    type: string
+                detTelTechRepresentative:
+                    type: string
+                detLinkProfile:
+                    type: string
+                detReadingPassword:
+                    type: string
+                detOwner:
+                    type: string
+                detOwnerDescription:
+                    type: string
+                detConsumptionConstant:
+                    type: number
+                    format: float
+                detOpticalPortTransmForm:
+                    type: string
+                detOpticalPortTransmSpeed:
+                    type: string
+                detCompromisedKeyFlg:
+                    type: boolean
+                inventoringAuthor:
+                    type: string
+                deviceTenant:
+                    type: string
+                deviceSequence:
+                    type: integer
+                    format: int32
+                conCdcFlg:
+                    type: boolean
+                conInsertionDirection:
+                    type: string
+                conInsertionType:
+                    type: string
+                conMeterVoltage:
+                    type: integer
+                    format: int32
+                conUnidirectionalUseFlg:
+                    type: boolean
+                conWithdrawalDirection:
+                    type: string
+                conDetLoadCurvesCostant:
+                    type: number
+                    format: float
+                conDetLoadCurvesIntCostant:
+                    type: number
+                    format: float
+                conDetLoadCurvesScaleFactor:
+                    type: string
+                conDetLowerHdlcAddress:
+                    type: string
+                conDetRegisterConstant:
+                    type: number
+                    format: float
+                conDetRegisterIntconstant:
+                    type: number
+                    format: float
+                conDetRegisterScalefactor:
+                    type: string
+                conDetUpperHdlcAddress:
+                    type: string
+                conDetCallViaHdlcFlg:
+                    type: boolean
+                conDetCallViaIdFlg:
+                    type: boolean
+                conDetCallViaSnFlg:
+                    type: boolean
+                conDetMultidropFlg:
+                    type: boolean
+                conNumOfMaxPower:
+                    type: string
+                conNumOfTimeslotsReactEnergy:
+                    type: string
+                conDtLastConfig:
+                    type: string
+                    format: date-time
+                conContractualPower1:
+                    type: number
+                    format: float
+                conContractualPower2:
+                    type: number
+                    format: float
+                conContractualPower3:
+                    type: number
+                    format: float
+                conContractualPower4:
+                    type: number
+                    format: float
+                conContractualPower5:
+                    type: number
+                    format: float
+                conContractualPower6:
+                    type: number
+                    format: float
+                conNumOfTimeslots:
+                    type: string
+                conTimeConfigName:
+                    type: string
+                conTarifRegulation:
+                    type: string
+                conVoltageTransfRatio:
+                    type: string
+                conCurrentTransfRatio:
+                    type: string
+                conNumOfLoadCurves:
+                    type: integer
+                    format: int32
+                conBillingClosure:
+                    type: string
+                conMustBeReadFlg:
+                    type: boolean
+                conSeasonChangeRegulation:
+                    type: integer
+                    format: int32
+                conHolidayCalendar:
+                    type: string
+                conSerialPortTransmForm:
+                    type: string
+                conSerialPortTransmSpeed:
+                    type: integer
+                    format: int32
+                conTitularCompVoltage:
+                    type: string
+                conSetUpperVoltage:
+                    type: string
+                conSetLowerVoltage:
+                    type: string
+                conVoltageOutLimitMinDur:
+                    type: string
+                conVoltageLowLackThreshold:
+                    type: string
+                conVoltageLackMinDur:
+                    type: string
+                conAvailablePower:
+                    type: number
+                    format: float
+                conLimitedPowerFlg:
+                    type: boolean
+                conPowerAllowance:
+                    type: number
+                    format: float
+                conNumOfMaxPowerC2:
+                    type: string
+                conNumOfTimeslotsReactEnergyC2:
+                    type: string
+                conContractualPower1C2:
+                    type: number
+                    format: float
+                conContractualPower2C2:
+                    type: number
+                    format: float
+                conContractualPower3C2:
+                    type: number
+                    format: float
+                conContractualPower4C2:
+                    type: number
+                    format: float
+                conContractualPower5C2:
+                    type: number
+                    format: float
+                conContractualPower6C2:
+                    type: number
+                    format: float
+                conNumOfTimeslotsC2:
+                    type: string
+                conTimeConfigNameC2:
+                    type: string
+                conBillingClosureC2:
+                    type: string
+                conMustBeReadC2Flg:
+                    type: boolean
+                conNumOfMaxPowerC3:
+                    type: string
+                conNumOfTimeslotsReactEC3:
+                    type: string
+                conContractualPower1C3:
+                    type: number
+                    format: float
+                conContractualPower2C3:
+                    type: number
+                    format: float
+                conContractualPower3C3:
+                    type: number
+                    format: float
+                conContractualPower4C3:
+                    type: number
+                    format: float
+                conContractualPower5C3:
+                    type: number
+                    format: float
+                conContractualPower6C3:
+                    type: number
+                    format: float
+                conNumOfTimeslotsC3:
+                    type: string
+                conTimeConfigNameC3:
+                    type: string
+                conBillingClosureC3:
+                    type: string
+                conMustBeReadC3Flg:
+                    type: boolean
+                conModToRecLinkAddress:
+                    type: string
+                conRecToMetLinkAddress:
+                    type: string
+                removalAuthor:
+                    type: string
+                dtRemoval:
+                    type: string
+                    format: date-time
+                removalReason:
+                    type: string
+                installationAuthor:
+                    type: string
+                dtInstallation:
+                    type: string
+                    format: date-time
+                podCode:
+                    type: string
+                detNotes:
+                    type: string
+                detOfflineFlg:
+                    type: boolean
+                detPosition:
+                    type: string
+                detDispatchingFlg:
+                    type: boolean
+                detInstalledFlg:
+                    type: boolean
+                detSuspendedForVerFlg:
+                    type: boolean
+                detDtLastMeasureVer:
+                    type: string
+                    format: date-time
+                detDtOfficialMeasureVer:
+                    type: string
+                    format: date-time
+                detDtInstallationVer:
+                    type: string
+                    format: date-time
+                detPurpose:
+                    type: string
+                detSealTongsCode:
+                    type: string
+                detDtLastSealInst:
+                    type: string
+                    format: date-time
+                detActiveEnergyIntType:
+                    type: string
+                detPowerIntType:
+                    type: string
+                detNumOfInt:
+                    type: integer
+                    format: int32
+                detTelemanagementStatus:
+                    type: string
+                telemanagementInhibition:
+                    type: string
+                dtTelemanagementInhibition:
+                    type: string
+                profile:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ProfileGMEDTO'
+        ProfileGMEDTO:
+            required:
+                - firmwareVersion
+                - manufacturer
+                - model
+                - profileType
+            type: object
+            properties:
+                dtIniRef:
+                    type: string
+                    format: date-time
+                dtEndRef:
+                    type: string
+                    format: date-time
+                dtIniVal:
+                    type: string
+                    format: date-time
+                dtEndVal:
+                    type: string
+                    format: date-time
+                createdAuthor:
+                    type: string
+                modifiedAuthor:
+                    type: string
+                availablePower:
+                    type: number
+                    format: float
+                description:
+                    type: string
+                firmwareVersion:
+                    type: string
+                limitPower:
+                    type: number
+                    format: float
+                unidirectionalFlg:
+                    type: boolean
+                calss:
+                    type: string
+                manufacturer:
+                    type: string
+                model:
+                    type: string
+                typeForAutority:
+                    type: string
+                officialManufacturer:
+                    type: string
+                officialModel:
+                    type: string
+                reactiveEnergyClass:
+                    type: string
+                referenceVoltage:
+                    type: string
+                minimumVoltage:
+                    type: number
+                    format: float
+                maximumVoltage:
+                    type: number
+                    format: float
+                baseCurrent:
+                    type: number
+                    format: float
+                maximumCurrent:
+                    type: number
+                    format: float
+                chargeability:
+                    type: number
+                    format: float
+                energyType:
+                    type: string
+                numOfPhases:
+                    type: string
+                obsoleteFlg:
+                    type: boolean
+                defObsoleteFlg:
+                    type: boolean
+                numOfContracts:
+                    type: integer
+                    format: int32
+                numOfPowers:
+                    type: integer
+                    format: int32
+                descriptionModel:
+                    type: string
+                auxiliaryPowerSupplyFlg:
+                    type: boolean
+                commModuleConnection:
+                    type: string
+                function:
+                    type: string
+                protocol:
+                    type: string
+                profileTenant:
+                    type: string
+                profileSequence:
+                    type: integer
+                    format: int32
+                profileType:
+                    type: string
+                    description: SHARED = 1 and SPECIFIC = 0
+                    enum:
+                        - '0,1'
+        SampleMessageObject:
+            type: object
+            properties:
+                payload:
+                    type: object
+        SampleObjectTO:
+            type: object
+            properties:
+                id:
+                    type: string
+        ExecutionPlanRequestDTO:
+            required:
+                - planType
+            type: object
+            properties:
+                applicationFilter:
+                    type: string
+                dataGovernanceFilter:
+                    type: string
+                planType:
+                    type: string
+                    enum:
+                        - Extraction
+                        - MergeAndProcess
+        ExecutionPlanResponseDTO:
+            type: object
+        FlightInfo:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                partitionFilter:
+                    type: string
+        StreamingResponseBody:
+            type: object
